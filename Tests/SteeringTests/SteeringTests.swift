@@ -1,4 +1,6 @@
 import XCTest
 @testable import Steering
 
-final class SteeringTests: XCTestCase {}
+final class SteeringTests: XCTestCase {
+    static var allTests = []
+}
