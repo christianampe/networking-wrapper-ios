@@ -4,6 +4,24 @@
 
 import Foundation
 
+enum Test: SteeringRequest {
+    var baseURL: URL { URL(string: "www.google.com")! }
+    
+    var method: SteeringRequestMethod { .get }
+    
+    var path: String { "/api" }
+    
+    var parameters: [String : String]? { nil }
+    
+    var headers: [String : String]? { nil }
+    
+    var body: SteeringRequestBody { .none }
+    
+    var item: Decodable.Type { Towel.self }
+    
+    var validation: SteeringRequestValidation { .none }
+}
+
 // MARK: - Network Request Protocol
 public protocol SteeringRequest {
     
@@ -11,7 +29,7 @@ public protocol SteeringRequest {
     var baseURL: URL { get }
     
     /// The http method used in the request.
-    var method: SteeringRequestMethodProtocol { get }
+    var method: SteeringRequestMethod { get }
     
     /// The path to be appended to base url to form the full url.
     var path: String { get }
@@ -23,13 +41,13 @@ public protocol SteeringRequest {
     var headers: [String: String]? { get }
     
     /// The body to be used in the request.
-    var body: SteeringRequestBodyProtocol? { get }
+    var body: SteeringRequestBody { get }
     
     /// The item to be parsed and returned.
     var item: Decodable.Type { get }
     
     /// The validation to be applied to the status code.
-    var validation: SteeringRequestValidationProtocol { get }
+    var validation: SteeringRequestValidation { get }
 }
 
 // MARK: - Public Constructor
@@ -70,7 +88,7 @@ private extension SteeringRequest {
     func addMethod(_ method: SteeringRequestMethodProtocol,
                    to request: inout URLRequest) {
         
-        request.httpMethod = method.description
+        request.httpMethod = method.name
     }
     
     /// Appends the given path to the request url.

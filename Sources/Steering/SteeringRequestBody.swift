@@ -4,7 +4,7 @@
 
 import Foundation
 
-public protocol SteeringRequestBodyProtocol {
+protocol SteeringRequestBodyProtocol {
     
     /// The data to be passed in the http body.
     var data: Data? { get }
@@ -16,34 +16,34 @@ public protocol SteeringRequestBodyProtocol {
 public enum SteeringRequestBody: SteeringRequestBodyProtocol {
     
     /// A request with no additional data.
-    case requestPlain
+    case none
     
     /// A requests body set with data.
-    case requestData(Data)
+    case data(Data)
     
     /// A request body set with `Encodable` type
-    case requestJSONEncodable(Encodable)
+    case jsonEncodable(Encodable)
 }
 
-public extension SteeringRequestBody {
+extension SteeringRequestBody {
     var data: Data? {
         switch self {
-        case .requestPlain:
+        case .none:
             return nil
-        case .requestData(let data):
+        case .data(let data):
             return data
-        case .requestJSONEncodable(let encodable):
+        case .jsonEncodable(let encodable):
             return try? SteeringRequestBody.jsonEncoder.encode(AnyEncodable(encodable))
         }
     }
     
     var contentType: String? {
         switch self {
-        case .requestPlain:
+        case .none:
             return nil
-        case .requestData:
+        case .data:
             return "application/json"
-        case .requestJSONEncodable:
+        case .jsonEncodable:
             return "application/json"
         }
     }

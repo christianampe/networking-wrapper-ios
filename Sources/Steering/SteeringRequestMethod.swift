@@ -4,7 +4,11 @@
 
 import Foundation
 
-public protocol SteeringRequestMethodProtocol: CustomStringConvertible {}
+protocol SteeringRequestMethodProtocol {
+    
+    /// Uppercased representation of the method name.
+    var name: String { get }
+}
 
 public enum SteeringRequestMethod: String, SteeringRequestMethodProtocol {
     
@@ -33,8 +37,8 @@ public enum SteeringRequestMethod: String, SteeringRequestMethodProtocol {
     case trace
 }
 
-public extension SteeringRequestMethod {
+extension SteeringRequestMethod {
     
     /// Uppercased representation of the method name.
-    var description: String { rawValue.uppercased() }
+    var name: String { rawValue.uppercased() }
 }
