@@ -4,7 +4,7 @@
 
 import Foundation
 
-protocol SteeringProtocol {
+public protocol SteeringProtocol {
     
     /// Request method used for requesting any service supported network calls.
     /// - Parameter target: Enum holding possible network requests
@@ -16,18 +16,18 @@ protocol SteeringProtocol {
 }
 
 // MARK: - Networking Class
-class Steering {
+public class Steering : SteeringProtocol {
     
     /// Initialized provider holding reference to the innerworkings of the service layer.
     private let service: SteeringBoltProtocol
     
-    init(service: SteeringBoltProtocol) {
+    public init(service: SteeringBoltProtocol) {
         self.service = service
     }
 }
 
 // MARK: - Internal API
-extension Steering: SteeringProtocol {
+public extension Steering {
     
     /// Request method used for requesting any service supported network calls.
     /// - Parameter target: Enum holding possible network requests
@@ -38,7 +38,7 @@ extension Steering: SteeringProtocol {
                  completion: @escaping (Result<SteeringResponse, SteeringError>) -> Void) -> URLSessionDataTask? {
         
         // make request to specified target
-        return service.request(target.urlRequest) { result in
+        return service.task(target.urlRequest) { result in
             
             // switch on result of network request
             switch result {

@@ -5,7 +5,7 @@
 import Foundation
 
 // MARK: - Network Request Protocol
-protocol SteeringRequest {
+public protocol SteeringRequest {
     
     /// The target's base url.
     var baseURL: URL { get }
@@ -25,8 +25,10 @@ protocol SteeringRequest {
     /// The body to be used in the request.
     var body: SteeringRequestBodyProtocol? { get }
     
-//    var item: some Decodable { get }
+    /// The item to be parsed and returned.
+    var item: Decodable.Type { get }
     
+    /// The validation to be applied to the status code.
     var validation: SteeringRequestValidationProtocol { get }
 }
 

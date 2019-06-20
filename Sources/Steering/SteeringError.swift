@@ -4,7 +4,7 @@
 
 import Foundation
 
-enum SteeringError: Error {
+public enum SteeringError: Error {
     
     /// Returned when with the associated networking service error.
     case service(Error)
