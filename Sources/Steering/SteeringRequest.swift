@@ -4,24 +4,6 @@
 
 import Foundation
 
-enum Test: SteeringRequest {
-    var baseURL: URL { URL(string: "www.google.com")! }
-    
-    var method: SteeringRequestMethod { .get }
-    
-    var path: String { "/api" }
-    
-    var parameters: [String : String]? { nil }
-    
-    var headers: [String : String]? { nil }
-    
-    var body: SteeringRequestBody { .none }
-    
-    var item: Decodable.Type { Towel.self }
-    
-    var validation: SteeringRequestValidation { .none }
-}
-
 // MARK: - Network Request Protocol
 public protocol SteeringRequest {
     

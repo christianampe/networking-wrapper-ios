@@ -33,7 +33,7 @@ extension SteeringRequestBody {
         case .data(let data):
             return data
         case .jsonEncodable(let encodable):
-            return try? SteeringRequestBody.jsonEncoder.encode(AnyEncodable(encodable))
+            return try? SteeringRequestBody.jsonEncoder.encode(SteeringRequestBodyEncodable(encodable))
         }
     }
     

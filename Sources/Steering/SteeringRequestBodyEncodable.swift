@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct AnyEncodable: Encodable {
+struct SteeringRequestBodyEncodable: Encodable {
     private let encodable: Encodable
     
     init(_ encodable: Encodable) {
@@ -12,7 +12,7 @@ struct AnyEncodable: Encodable {
     }
 }
 
-extension AnyEncodable {
+extension SteeringRequestBodyEncodable {
     func encode(to encoder: Encoder) throws {
         try encodable.encode(to: encoder)
     }
