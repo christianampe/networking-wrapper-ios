@@ -4,7 +4,10 @@
 
 import Foundation
 
-public protocol SteeringProtocol {
+public protocol Steering {
+    associatedtype Error: Swift.Error
+    
+    var service: SteeringBolt { get set }
     
     /// A request method used for requesting any service supported network calls.
     /// - Parameter type: The generic `Decodable` type to be parsed by the `jsonDecoder`.
@@ -15,19 +18,7 @@ public protocol SteeringProtocol {
     @discardableResult func request<T: Decodable>(_ type: T, with jsonDecoder: JSONDecoder, from target: SteeringRequest, completion: @escaping (Result<SteeringResponse<T>, SteeringError>) -> Void) -> URLSessionDataTask?
 }
 
-// MARK: - Networking Class
-public class Steering<Error: Swift.Error> {
-    
-    /// An initialized provider holding reference to the innerworkings of the service layer.
-    private let service: SteeringBolt
-    
-    public init(_ service: SteeringBolt) {
-        self.service = service
-    }
-}
-
-// MARK: - Public API
-extension Steering: SteeringProtocol {
+extension Steering {
     
     /// A request method used for requesting any service supported network calls.
     /// - Parameter type: The generic `Decodable` type to be parsed by the `jsonDecoder`.
