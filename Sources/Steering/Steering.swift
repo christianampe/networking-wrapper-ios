@@ -16,7 +16,7 @@ public protocol SteeringProtocol {
 }
 
 // MARK: - Networking Class
-public class Steering {
+public class Steering<Error: Swift.Error> {
     
     /// An initialized provider holding reference to the innerworkings of the service layer.
     private let service: SteeringBolt
@@ -42,7 +42,7 @@ extension Steering: SteeringProtocol {
                                       completion: @escaping (Result<SteeringResponse<T>, SteeringError>) -> Void) -> URLSessionDataTask? {
         
         // Make a request to specified target.
-        return service.task(target.urlRequest) { result in
+        return service.task(target.urlRequest, with: Error.self) { result in
             
             // Switch on the result of the network request.
             switch result {
