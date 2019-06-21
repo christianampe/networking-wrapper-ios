@@ -5,7 +5,6 @@
 import Foundation
 
 public protocol Steering {
-    associatedtype Response: SteeringResponseProtocol
     associatedtype Error: Swift.Error
     associatedtype Bolt: SteeringBolt
     
@@ -17,7 +16,7 @@ public protocol Steering {
     /// - Parameter target: Enum holding possible network requests
     /// - Parameter completion: Result returning either a parsed model or an error.
     /// - Returns: A session data task if a new network call is made.
-    @discardableResult func request<T: Decodable>(_ type: T, with jsonDecoder: JSONDecoder, from target: SteeringRequest, completion: @escaping (Result<Response, Error>) -> Void) -> URLSessionDataTask?
+    @discardableResult func request<T: Decodable>(_ type: T, with jsonDecoder: JSONDecoder, from target: SteeringRequest, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionDataTask?
 }
 
 extension Steering {
@@ -32,7 +31,7 @@ extension Steering {
     public func request<T: Decodable>(_ type: T,
                                       with jsonDecoder: JSONDecoder,
                                       from target: SteeringRequest,
-                                      completion: @escaping (Result<SteeringResponse<T>, SteeringError>) -> Void) -> URLSessionDataTask? {
+                                      completion: @escaping (Result<T, SteeringError>) -> Void) -> URLSessionDataTask? {
         
         // Make a request to specified target.
         return service.task(target.urlRequest) { result in
@@ -58,7 +57,7 @@ extension Steering {
                     let item = try jsonDecoder.decode(T.self, from: response.data)
                     
                     // Successfully parsed the resulting data.
-                    completion(.success(SteeringResponse(item)))
+                    completion(.success(item))
                 } catch {
                     
                     // Unable to parse the resulting data.
