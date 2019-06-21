@@ -3,25 +3,26 @@
 //
 
 import Foundation
-import Tyre
 
 public protocol SteeringProtocol {
     
     /// A request method used for requesting any service supported network calls.
+    /// - Parameter type: The generic `Decodable` type to be parsed by the `jsonDecoder`.
+    /// - Parameter jsonDecoder: The `JSONDecoder` used to parse the generic `Decodable` type.
     /// - Parameter target: Enum holding possible network requests
     /// - Parameter completion: Result returning either a parsed model or an error.
-    /// - Returns: A session data task if a new network call is made. Nil if the cache is utilized.
+    /// - Returns: A session data task if a new network call is made.
     @discardableResult
-    func request<T: Decodable>(_ type: T, from target: SteeringRequest, completion: @escaping (Result<SteeringResponse<T>, SteeringError>) -> Void) -> URLSessionDataTask?
+    func request<T: Decodable>(_ type: T, with jsonDecoder: JSONDecoder, from target: SteeringRequest, completion: @escaping (Result<SteeringResponse<T>, SteeringError>) -> Void) -> URLSessionDataTask?
 }
 
 // MARK: - Networking Class
 public class Steering {
     
     /// An initialized provider holding reference to the innerworkings of the service layer.
-    private let service: Tyre
+    private let service: SteeringBoltProtocol
     
-    public init(_ service: Tyre = .init()) {
+    public init(_ service: SteeringBoltProtocol) {
         self.service = service
     }
 }
@@ -30,11 +31,14 @@ public class Steering {
 extension Steering: SteeringProtocol {
     
     /// A request method used for requesting any service supported network calls.
+    /// - Parameter type: The generic `Decodable` type to be parsed by the `jsonDecoder`.
+    /// - Parameter jsonDecoder: The `JSONDecoder` used to parse the generic `Decodable` type.
     /// - Parameter target: Enum holding possible network requests
     /// - Parameter completion: Result returning either a parsed model or an error.
-    /// - Returns: A session data task if a new network call is made. Nil if the cache is utilized.
+    /// - Returns: A session data task if a new network call is made.
     @discardableResult
     public func request<T: Decodable>(_ type: T,
+                                      with jsonDecoder: JSONDecoder,
                                       from target: SteeringRequest,
                                       completion: @escaping (Result<SteeringResponse<T>, SteeringError>) -> Void) -> URLSessionDataTask? {
         
@@ -59,7 +63,7 @@ extension Steering: SteeringProtocol {
                 do {
                     
                     // Attempt to parse the data returned from the network request.
-                    let item = try Steering.jsonDecoder.decode(T.self, from: response.data)
+                    let item = try jsonDecoder.decode(T.self, from: response.data)
                     let response = SteeringResponse(item: item)
                     
                     // Successfully parsed the resulting data.
@@ -77,8 +81,4 @@ extension Steering: SteeringProtocol {
             }
         }
     }
-}
-
-private extension Steering {
-    static let jsonDecoder = JSONDecoder()
 }
