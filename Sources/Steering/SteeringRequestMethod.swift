@@ -10,7 +10,7 @@ protocol SteeringRequestMethodProtocol {
     var name: String { get }
 }
 
-public enum SteeringRequestMethod: String, SteeringRequestMethodProtocol {
+public enum SteeringRequestMethod: String {
     
     /// https://tools.ietf.org/html/rfc7231#section-4.3.1
     case get
@@ -37,7 +37,7 @@ public enum SteeringRequestMethod: String, SteeringRequestMethodProtocol {
     case trace
 }
 
-extension SteeringRequestMethod {
+extension SteeringRequestMethod: SteeringRequestMethodProtocol {
     
     /// Uppercased representation of the method name.
     var name: String { rawValue.uppercased() }

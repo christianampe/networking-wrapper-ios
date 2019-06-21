@@ -13,7 +13,7 @@ protocol SteeringRequestBodyProtocol {
     var contentType: String? { get }
 }
 
-public enum SteeringRequestBody: SteeringRequestBodyProtocol {
+public enum SteeringRequestBody {
     
     /// A request with no additional data.
     case none
@@ -25,7 +25,7 @@ public enum SteeringRequestBody: SteeringRequestBodyProtocol {
     case jsonEncodable(Encodable)
 }
 
-extension SteeringRequestBody {
+extension SteeringRequestBody: SteeringRequestBodyProtocol {
     var data: Data? {
         switch self {
         case .none:

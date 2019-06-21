@@ -4,12 +4,12 @@
 
 import Foundation
 
-public protocol SteeringRequestValidationProtocol {
+protocol SteeringRequestValidationProtocol {
     var statusCodes: [Int] { get }
 }
 
 /// Represents the status codes to validate through Alamofire.
-public enum SteeringRequestValidation: SteeringRequestValidationProtocol {
+public enum SteeringRequestValidation {
     
     /// No validation.
     case none
@@ -24,7 +24,7 @@ public enum SteeringRequestValidation: SteeringRequestValidationProtocol {
     case customCodes([Int])
 }
 
-public extension SteeringRequestValidation {
+extension SteeringRequestValidation: SteeringRequestValidationProtocol {
 
     /// The list of HTTP status codes to validate.
     var statusCodes: [Int] {
