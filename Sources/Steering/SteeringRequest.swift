@@ -4,7 +4,7 @@
 
 import Foundation
 
-// MARK: - Network Request Protocol
+// MARK: - Network Request
 public protocol SteeringRequest {
     
     /// The target's base url.
@@ -67,7 +67,7 @@ private extension SteeringRequest {
     /// Adds the http method type to the request.
     /// - Parameter method: HTTP method to be executed.
     /// - Parameter request: Inout url request being constructed.
-    func addMethod(_ method: SteeringRequestMethodProtocol,
+    func addMethod(_ method: SteeringRequestMethod,
                    to request: inout URLRequest) {
         
         request.httpMethod = method.name
@@ -119,7 +119,7 @@ private extension SteeringRequest {
     /// Adds given body data to the request.
     /// - Parameter body: request body to be added.
     /// - Parameter request: Inout url request being constructed.
-    func addRequestBody(_ body: SteeringRequestBodyProtocol?,
+    func addRequestBody(_ body: SteeringRequestBody?,
                         to request: inout URLRequest) {
         
         guard let body = body else {

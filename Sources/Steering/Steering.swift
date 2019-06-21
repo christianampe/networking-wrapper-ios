@@ -12,17 +12,16 @@ public protocol SteeringProtocol {
     /// - Parameter target: Enum holding possible network requests
     /// - Parameter completion: Result returning either a parsed model or an error.
     /// - Returns: A session data task if a new network call is made.
-    @discardableResult
-    func request<T: Decodable>(_ type: T, with jsonDecoder: JSONDecoder, from target: SteeringRequest, completion: @escaping (Result<SteeringResponse<T>, SteeringError>) -> Void) -> URLSessionDataTask?
+    @discardableResult func request<T: Decodable>(_ type: T, with jsonDecoder: JSONDecoder, from target: SteeringRequest, completion: @escaping (Result<SteeringResponse<T>, SteeringError>) -> Void) -> URLSessionDataTask?
 }
 
 // MARK: - Networking Class
 public class Steering {
     
     /// An initialized provider holding reference to the innerworkings of the service layer.
-    private let service: SteeringBoltProtocol
+    private let service: SteeringBolt
     
-    public init(_ service: SteeringBoltProtocol) {
+    public init(_ service: SteeringBolt) {
         self.service = service
     }
 }

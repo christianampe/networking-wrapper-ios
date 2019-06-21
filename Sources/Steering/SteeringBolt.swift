@@ -4,15 +4,15 @@
 
 import Foundation
 
-public protocol SteeringBoltProtocol {
+public protocol SteeringBolt {
     
     /// The core method wrapping a `URLSession` `dataTask`.
     /// - Parameter request: A request object containing all information necessary for making the network request.
     /// - Parameter completion: A  generic result containing either an error or successful response.
-    @discardableResult func task(_ request: URLRequest, completion: @escaping (Result<SteeringBoltResponseProtocol, Error>) -> Void) -> URLSessionDataTask
+    @discardableResult func task(_ request: URLRequest, completion: @escaping (Result<SteeringBoltResponse, Error>) -> Void) -> URLSessionDataTask
 }
 
-public protocol SteeringBoltResponseProtocol {
+public protocol SteeringBoltResponse {
     
     /// The data returned from the network request.
     var data: Data { get }
