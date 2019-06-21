@@ -5,9 +5,18 @@
 import Foundation
 
 public protocol Steering {
+    
+    /// The associated error passed back when performing a failed task.
     associatedtype Error: Swift.Error
+    
+    /// The associated structure responsible for making network requests.
     associatedtype Bolt: SteeringBolt
     
+    /// The default initializer.
+    /// - Parameter service: The service wrapping up a network request method.
+    init(_ service: Bolt)
+    
+    /// The service layer responsible for making network requests.
     var service: Bolt { get set }
     
     /// A request method used for requesting any service supported network calls.
