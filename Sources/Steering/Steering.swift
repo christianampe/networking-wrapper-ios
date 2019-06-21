@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import Tyre
 
 public protocol SteeringProtocol {
     
@@ -18,9 +19,9 @@ public protocol SteeringProtocol {
 public class Steering : SteeringProtocol {
     
     /// An initialized provider holding reference to the innerworkings of the service layer.
-    private let service: SteeringBoltProtocol
+    private let service: Tyre
     
-    public init(service: SteeringBoltProtocol) {
+    public init(_ service: Tyre = .init()) {
         self.service = service
     }
 }
