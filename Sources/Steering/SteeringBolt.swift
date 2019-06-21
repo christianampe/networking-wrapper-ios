@@ -6,20 +6,14 @@ import Foundation
 
 public protocol SteeringBolt {
     
+    /// The error to be returned from an unsuccessful network task.
+    associatedtype Error: Swift.Error
+    
+    /// The response to be returned from a successful network task.
+    associatedtype Response: SteeringBoltResponse
+    
     /// The core method wrapping a `URLSession` `dataTask`.
     /// - Parameter request: A request object containing all information necessary for making the network request.
     /// - Parameter completion: A  generic result containing either an error or successful response.
-    @discardableResult func task<E: Error>(_ request: URLRequest, with errorType: E.Type, completion: @escaping (Result<SteeringBoltResponse, E>) -> Void) -> URLSessionDataTask
-}
-
-public protocol SteeringBoltResponse {
-    
-    /// The data returned from the network request.
-    var data: Data { get }
-    
-    /// The url  request sent to server.
-    var request: URLRequest { get }
-    
-    /// The http url response returned from server.
-    var response: HTTPURLResponse { get }
+    @discardableResult func task(_ request: URLRequest, completion: @escaping (Result<Response, Error>) -> Void) -> URLSessionDataTask
 }

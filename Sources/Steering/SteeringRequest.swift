@@ -32,8 +32,8 @@ public protocol SteeringRequest {
     var validation: SteeringRequestValidation { get }
 }
 
-// MARK: - Public Constructor
-extension SteeringRequest {
+// MARK: - Constructor
+internal extension SteeringRequest {
     
     /// URL request constructed from the object.
     var urlRequest: URLRequest {
@@ -61,7 +61,7 @@ extension SteeringRequest {
     }
 }
 
-// MARK: - Private Request Constructor Helpers
+// MARK: - Constructor Helpers
 private extension SteeringRequest {
     
     /// Adds the http method type to the request.

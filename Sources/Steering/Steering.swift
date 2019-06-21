@@ -5,9 +5,11 @@
 import Foundation
 
 public protocol Steering {
+    associatedtype Response: SteeringResponseProtocol
     associatedtype Error: Swift.Error
+    associatedtype Bolt: SteeringBolt
     
-    var service: SteeringBolt { get set }
+    var service: Bolt { get set }
     
     /// A request method used for requesting any service supported network calls.
     /// - Parameter type: The generic `Decodable` type to be parsed by the `jsonDecoder`.
@@ -15,7 +17,7 @@ public protocol Steering {
     /// - Parameter target: Enum holding possible network requests
     /// - Parameter completion: Result returning either a parsed model or an error.
     /// - Returns: A session data task if a new network call is made.
-    @discardableResult func request<T: Decodable>(_ type: T, with jsonDecoder: JSONDecoder, from target: SteeringRequest, completion: @escaping (Result<SteeringResponse<T>, SteeringError>) -> Void) -> URLSessionDataTask?
+    @discardableResult func request<T: Decodable>(_ type: T, with jsonDecoder: JSONDecoder, from target: SteeringRequest, completion: @escaping (Result<Response, Error>) -> Void) -> URLSessionDataTask?
 }
 
 extension Steering {
@@ -33,7 +35,7 @@ extension Steering {
                                       completion: @escaping (Result<SteeringResponse<T>, SteeringError>) -> Void) -> URLSessionDataTask? {
         
         // Make a request to specified target.
-        return service.task(target.urlRequest, with: Error.self) { result in
+        return service.task(target.urlRequest) { result in
             
             // Switch on the result of the network request.
             switch result {
@@ -54,10 +56,9 @@ extension Steering {
                     
                     // Attempt to parse the data returned from the network request.
                     let item = try jsonDecoder.decode(T.self, from: response.data)
-                    let response = SteeringResponse(item: item)
                     
                     // Successfully parsed the resulting data.
-                    completion(.success(response))
+                    completion(.success(SteeringResponse(item)))
                 } catch {
                     
                     // Unable to parse the resulting data.
