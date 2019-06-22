@@ -6,6 +6,9 @@ import Foundation
 
 public protocol Steering {
     
+    /// The associated network request targets.
+    associatedtype Target: SteeringRequest
+    
     /// The associated error passed back when performing a failed task.
     associatedtype Error: Swift.Error
     
@@ -25,7 +28,7 @@ public protocol Steering {
     /// - Parameter target: Enum holding possible network requests
     /// - Parameter completion: Result returning either a parsed model or an error.
     /// - Returns: A session data task if a new network call is made.
-    @discardableResult func request<T: Decodable>(_ type: T, with jsonDecoder: JSONDecoder, from target: SteeringRequest, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionDataTask?
+    @discardableResult func request<T: Decodable>(_ type: T, with jsonDecoder: JSONDecoder, from target: Target, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionDataTask?
 }
 
 extension Steering {
@@ -39,7 +42,7 @@ extension Steering {
     @discardableResult
     public func request<T: Decodable>(_ type: T,
                                       with jsonDecoder: JSONDecoder,
-                                      from target: SteeringRequest,
+                                      from target: Target,
                                       completion: @escaping (Result<T, SteeringError>) -> Void) -> URLSessionDataTask? {
         
         // Make a request to specified target.
