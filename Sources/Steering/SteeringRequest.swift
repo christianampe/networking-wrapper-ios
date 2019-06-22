@@ -33,7 +33,7 @@ public protocol SteeringRequest {
 }
 
 // MARK: - Constructor
-internal extension SteeringRequest {
+public extension SteeringRequest {
     
     /// URL request constructed from the object.
     var urlRequest: URLRequest {
