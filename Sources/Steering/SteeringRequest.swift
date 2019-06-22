@@ -7,11 +7,20 @@ import Foundation
 // MARK: - Network Request
 public protocol SteeringRequest {
     
+    /// The associated request method type to be used.
+    associatedtype Method: SteeringRequestMethod
+    
+    /// The associated request body to be used.
+    associatedtype Body: SteeringRequestBody
+    
+    /// The associated request validation to be used.
+    associatedtype Validation: SteeringRequestValidation
+    
     /// The target's base url.
     var baseURL: URL { get }
     
     /// The http method used in the request.
-    var method: SteeringRequestMethod { get }
+    var method: Method { get }
     
     /// The path to be appended to base url to form the full url.
     var path: String { get }
@@ -24,9 +33,6 @@ public protocol SteeringRequest {
     
     /// The body to be used in the request.
     var body: SteeringRequestBody { get }
-    
-    /// The item to be parsed and returned.
-    var item: Decodable.Type { get }
     
     /// The validation to be applied to the status code.
     var validation: SteeringRequestValidation { get }
