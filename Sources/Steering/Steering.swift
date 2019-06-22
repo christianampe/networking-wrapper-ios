@@ -17,7 +17,7 @@ public protocol Steering {
     init(_ service: Bolt)
     
     /// The service layer responsible for making network requests.
-    var service: Bolt { get set }
+    var service: Bolt { get }
     
     /// A request method used for requesting any service supported network calls.
     /// - Parameter type: The generic `Decodable` type to be parsed by the `jsonDecoder`.
