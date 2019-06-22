@@ -32,10 +32,10 @@ public protocol SteeringRequest {
     var headers: [String: String]? { get }
     
     /// The body to be used in the request.
-    var body: SteeringRequestBody { get }
+    var body: Body { get }
     
     /// The validation to be applied to the status code.
-    var validation: SteeringRequestValidation { get }
+    var validation: Validation { get }
 }
 
 // MARK: - Constructor
