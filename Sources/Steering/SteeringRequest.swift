@@ -19,9 +19,6 @@ public protocol SteeringRequest {
     /// The target's base url.
     var baseURL: URL { get }
     
-    /// The http method used in the request.
-    var method: Method { get }
-    
     /// The path to be appended to base url to form the full url.
     var path: String { get }
     
@@ -30,6 +27,9 @@ public protocol SteeringRequest {
     
     /// The headers to be used in the request.
     var headers: [String: String]? { get }
+    
+    /// The http method used in the request.
+    var method: Method { get }
     
     /// The body to be used in the request.
     var body: Body { get }
@@ -47,9 +47,6 @@ public extension SteeringRequest {
         // construct url request from base url
         var urlRequest = URLRequest(url: baseURL)
         
-        // add http method type
-        addMethod(method, to: &urlRequest)
-        
         // add path to url request
         addPath(path, to: &urlRequest)
         
@@ -58,6 +55,9 @@ public extension SteeringRequest {
         
         // add headers to url request
         addHeaders(headers, to: &urlRequest)
+        
+        // add http method type
+        addMethod(method, to: &urlRequest)
         
         // add http body
         addRequestBody(body, to: &urlRequest)
@@ -70,15 +70,6 @@ public extension SteeringRequest {
 // MARK: - Constructor Helpers
 private extension SteeringRequest {
     
-    /// Adds the http method type to the request.
-    /// - Parameter method: HTTP method to be executed.
-    /// - Parameter request: Inout url request being constructed.
-    func addMethod(_ method: SteeringRequestMethod,
-                   to request: inout URLRequest) {
-        
-        request.httpMethod = method.name
-    }
-    
     /// Appends the given path to the request url.
     /// - Parameter path: URL endpoint path to be added to the base url.
     /// - Parameter request: Inout url request being constructed.
@@ -86,6 +77,15 @@ private extension SteeringRequest {
                  to request: inout URLRequest) {
         
         request.url?.appendPathComponent(path)
+    }
+    
+    /// Adds the http method type to the request.
+    /// - Parameter method: HTTP method to be executed.
+    /// - Parameter request: Inout url request being constructed.
+    func addMethod(_ method: SteeringRequestMethod,
+                   to request: inout URLRequest) {
+        
+        request.httpMethod = method.name
     }
     
     /// Encodes and appends the given request parameters to the request url.
