@@ -5,5 +5,7 @@
 import Foundation
 
 public protocol SteeringRequestValidation {
+    
+    /// The status codes to be validated for.
     var statusCodes: [Int] { get }
 }

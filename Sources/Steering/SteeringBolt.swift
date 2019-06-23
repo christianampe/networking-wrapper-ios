@@ -15,5 +15,7 @@ public protocol SteeringBolt {
     /// The core method wrapping a `URLSession` `dataTask`.
     /// - Parameter request: A request object containing all information necessary for making the network request.
     /// - Parameter completion: A  generic result containing either an error or successful response.
-    @discardableResult func task(_ request: URLRequest, completion: @escaping (Result<Response, Error>) -> Void) -> URLSessionDataTask
+    @discardableResult
+    func task(_ request: URLRequest,
+              completion: @escaping (Result<Response, Error>) -> Void) -> URLSessionDataTask
 }
