@@ -48,19 +48,19 @@ public extension SteeringRequest {
         var urlRequest = URLRequest(url: baseURL)
         
         // add path to url request
-        addPath(path, to: &urlRequest)
+        add(path: path, to: &urlRequest)
         
         // add url components
-        addQueryParameters(parameters, to: &urlRequest)
+        add(parameters: parameters, to: &urlRequest)
         
         // add headers to url request
-        addHeaders(headers, to: &urlRequest)
+        add(headers: headers, to: &urlRequest)
         
         // add http method type
-        addMethod(method, to: &urlRequest)
+        add(method: method, to: &urlRequest)
         
         // add http body
-        addRequestBody(body, to: &urlRequest)
+        add(body: body, to: &urlRequest)
         
         // return construct request
         return urlRequest
@@ -73,8 +73,8 @@ private extension SteeringRequest {
     /// Appends the given path to the request url.
     /// - Parameter path: URL endpoint path to be added to the base url.
     /// - Parameter request: Inout url request being constructed.
-    func addPath(_ path: String,
-                 to request: inout URLRequest) {
+    func add(path: String,
+             to request: inout URLRequest) {
         
         request.url?.appendPathComponent(path)
     }
@@ -82,8 +82,8 @@ private extension SteeringRequest {
     /// Adds the http method type to the request.
     /// - Parameter method: HTTP method to be executed.
     /// - Parameter request: Inout url request being constructed.
-    func addMethod(_ method: SteeringRequestMethod,
-                   to request: inout URLRequest) {
+    func add(method: SteeringRequestMethod,
+             to request: inout URLRequest) {
         
         request.httpMethod = method.name
     }
@@ -91,8 +91,8 @@ private extension SteeringRequest {
     /// Encodes and appends the given request parameters to the request url.
     /// - Parameter parameters: Parameters to be added to the url query.
     /// - Parameter request: Inout url request being constructed.
-    func addQueryParameters(_ parameters: [String: String]?,
-                            to request: inout URLRequest) {
+    func add(parameters: [String: String]?,
+             to request: inout URLRequest) {
         
         guard let parameters = parameters, let requestURL = request.url else {
             return
@@ -110,8 +110,8 @@ private extension SteeringRequest {
     /// Adds given headers to the request.
     /// - Parameter headers: Headers to be added to the http header field.
     /// - Parameter request: Inout url request being constructed.
-    func addHeaders(_ headers: [String: String]?,
-                    to request: inout URLRequest) {
+    func add(headers: [String: String]?,
+             to request: inout URLRequest) {
         
         guard let headers = headers else {
             return
@@ -125,8 +125,8 @@ private extension SteeringRequest {
     /// Adds given body data to the request.
     /// - Parameter body: request body to be added.
     /// - Parameter request: Inout url request being constructed.
-    func addRequestBody(_ body: SteeringRequestBody?,
-                        to request: inout URLRequest) {
+    func add(body: SteeringRequestBody?,
+             to request: inout URLRequest) {
         
         guard let body = body else {
             return
