@@ -8,7 +8,4 @@ public protocol SteeringRequestBody {
     
     /// The data to be passed in the http body.
     var data: Data? { get }
-    
-    /// The value of the content-type header.
-    var contentType: String? { get }
 }

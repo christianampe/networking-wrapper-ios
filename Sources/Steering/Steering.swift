@@ -4,7 +4,8 @@
 
 import Foundation
 
-public protocol Steering {
+// MARK: - Private Interface
+private protocol SteeringInterface {
     
     /// The associated network request targets.
     associatedtype Target: SteeringRequest
@@ -15,14 +16,8 @@ public protocol Steering {
     /// The associated structure responsible for making network requests.
     associatedtype Bolt: SteeringBolt
     
-    /// The default initializer.
-    /// - Parameter service: The service wrapping up a network request method.
-    init(_ service: Bolt)
-    
-    /// The service layer responsible for making network requests.
-    var service: Bolt { get }
-    
     /// A request method used for requesting any service supported network calls.
+    ///
     /// - Parameter type: The generic `Decodable` type to be parsed by the `jsonDecoder`.
     /// - Parameter jsonDecoder: The `JSONDecoder` used to parse the generic `Decodable` type.
     /// - Parameter target: Enum holding possible network requests
@@ -35,10 +30,24 @@ public protocol Steering {
                                completion: @escaping (Result<T, Error>) -> Void) -> URLSessionDataTask?
 }
 
-// MARK: - Default Implementation
-extension Steering {
+// MARK: - Class Declaration
+public class Steering<Target: SteeringRequest, Error: Swift.Error, Bolt: SteeringBolt> {
+    
+    /// The service layer responsible for making network requests.
+    private let service: Bolt
+    
+    /// The default initializer.
+    /// - Parameter service: The service wrapping up a network request method.
+    public init(_ service: Bolt) {
+        self.service = service
+    }
+}
+
+// MARK: - SteeringInterface Conformation
+extension Steering: SteeringInterface {
     
     /// A request method used for requesting any service supported network calls.
+    ///
     /// - Parameter type: The generic `Decodable` type to be parsed by the `jsonDecoder`.
     /// - Parameter jsonDecoder: The `JSONDecoder` used to parse the generic `Decodable` type.
     /// - Parameter target: Enum holding possible network requests

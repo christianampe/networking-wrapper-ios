@@ -39,7 +39,7 @@ public protocol SteeringRequest {
 }
 
 // MARK: - Constructor
-public extension SteeringRequest {
+extension SteeringRequest {
     
     /// URL request constructed from the object.
     var urlRequest: URLRequest {
@@ -128,16 +128,10 @@ private extension SteeringRequest {
     func add(body: SteeringRequestBody?,
              to request: inout URLRequest) {
         
-        guard let body = body else {
+        guard let body = body, let data = body.data else {
             return
         }
-        
-        if let contentType = body.contentType {
-            request.setValue(contentType, forHTTPHeaderField: "Content-Type")
-        }
 
-        if let data = body.data {
-            request.httpBody = data
-        }
+        request.httpBody = data
     }
 }
