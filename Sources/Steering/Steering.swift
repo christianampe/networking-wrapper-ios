@@ -31,7 +31,7 @@ private protocol SteeringInterface {
 }
 
 // MARK: - Class Declaration
-public class Steering<Target: SteeringRequest, Error: Swift.Error, Bolt: SteeringBolt> {
+public class Steering<Target: SteeringRequest, Bolt: SteeringBolt> {
     
     /// The service layer responsible for making network requests.
     private let service: Bolt
