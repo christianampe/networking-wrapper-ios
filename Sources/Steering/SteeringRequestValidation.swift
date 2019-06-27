@@ -5,7 +5,7 @@
 import Foundation
 
 // MARK: - Interface
-protocol SteeringRequestValidationInterface {
+private protocol SteeringRequestValidationInterface {
     
     /// The status codes to be validated for.
     var statusCodes: [Int] { get }

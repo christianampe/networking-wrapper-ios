@@ -5,13 +5,10 @@
 import Foundation
 import Tyre
 
-protocol SteeringBoltInterface {
+private protocol SteeringBoltInterface {
     
     /// The error to be returned from an unsuccessful network task.
     associatedtype Error: Swift.Error
-    
-    /// The response to be returned from a successful network task.
-    associatedtype Response: SteeringBoltResponseInterface
     
     /// The core method wrapping a `URLSession` `dataTask`.
     ///
@@ -19,7 +16,7 @@ protocol SteeringBoltInterface {
     /// - Parameter completion: A  generic result containing either an error or successful response.
     @discardableResult
     func task(_ request: URLRequest,
-              completion: @escaping (Result<Response, Error>) -> Void) -> URLSessionDataTask
+              completion: @escaping (Result<SteeringBoltResponse, Error>) -> Void) -> URLSessionDataTask
 }
 
 public class SteeringBolt {

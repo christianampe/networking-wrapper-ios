@@ -4,7 +4,7 @@
 
 import Foundation
 
-protocol SteeringBoltResponseInterface {
+private protocol SteeringBoltResponseInterface {
     
     /// The data returned from the network request.
     var data: Data { get }

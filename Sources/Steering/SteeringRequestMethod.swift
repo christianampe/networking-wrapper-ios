@@ -5,7 +5,7 @@
 import Foundation
 
 // MARK: - Interface
-protocol SteeringRequestMethodInterface {
+private protocol SteeringRequestMethodInterface {
     
     /// Uppercased representation of the method name.
     var name: String { get }

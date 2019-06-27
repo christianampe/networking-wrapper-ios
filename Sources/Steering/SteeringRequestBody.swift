@@ -5,7 +5,7 @@
 import Foundation
 
 // MARK: - Interface
-protocol SteeringRequestBodyInterface {
+private protocol SteeringRequestBodyInterface {
     
     /// The data to be passed in the http body.
     var data: Data? { get }
