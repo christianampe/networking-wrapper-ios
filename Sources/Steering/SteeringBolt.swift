@@ -25,7 +25,7 @@ public class SteeringBolt {
     private let tyre = Tyre<SteeringBoltError>()
 }
 
-extension SteeringBolt {
+extension SteeringBolt: SteeringBoltInterface {
     @discardableResult
     public func task(_ request: URLRequest,
                      completion: @escaping (Result<SteeringBoltResponse, SteeringBoltError>) -> Void) -> URLSessionDataTask {

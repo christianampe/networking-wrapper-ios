@@ -79,9 +79,9 @@ extension Steering: SteeringInterface {
             case .failure(let error):
                 switch error {
                 case .unresponsive:
-                    completion(.failure(.unresponsive)
+                    completion(.failure(.unresponsive))
                 case .underlying(let error):
-                    completion(.failure(.underlying(error))
+                    completion(.failure(.underlying(error)))
                 }
             }
         }
