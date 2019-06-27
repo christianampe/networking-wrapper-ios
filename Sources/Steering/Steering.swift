@@ -77,9 +77,12 @@ extension Steering: SteeringInterface {
                 }
                 
             case .failure(let error):
-                
-                // something went wrong with the network request
-                completion(.failure(.service(error)))
+                switch error {
+                case .unresponsive:
+                    completion(.failure(.unresponsive)
+                case .underlying(let error):
+                    completion(.failure(.underlying(error))
+                }
             }
         }
     }

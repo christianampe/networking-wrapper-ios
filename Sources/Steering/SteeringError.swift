@@ -6,8 +6,11 @@ import Foundation
 
 public enum SteeringError: Error {
     
-    /// Returned when with the associated networking service error.
-    case service(Error)
+    /// Returned when the server cannot be reached.
+    case unresponsive
+    
+    /// Returned when with the `URLSession` fails.
+    case underlying(Error)
     
     /// Returned when there is an error with parsing the input data.
     case parsing(Error)
