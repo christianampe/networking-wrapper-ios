@@ -4,17 +4,22 @@
 
 import Foundation
 
-// MARK: - Network Request
+// MARK: - Interface
 public protocol SteeringRequest {
     
-    /// The associated request method type to be used.
-    associatedtype Method: SteeringRequestMethod
+    /// The explicit initializer.
+    ///
+    /// - Parameter input: The object containing required fields to complete the request.
+    init(_ input: Input)
     
-    /// The associated request body to be used.
-    associatedtype Body: SteeringRequestBody
+    /// The input object to be used  to pass in values to the request
+    associatedtype Input
     
-    /// The associated request validation to be used.
-    associatedtype Validation: SteeringRequestValidation
+    /// The associated response object to be parsed from the response.
+    associatedtype Response: Decodable
+    
+    /// The decoder used to parse the network response.
+    var jsonDecoder: JSONDecoder { get }
     
     /// The target's base url.
     var baseURL: URL { get }
@@ -23,22 +28,22 @@ public protocol SteeringRequest {
     var path: String { get }
     
     /// The parameters to be appended to the full formed url.
-    var parameters: [String: String]? { get }
+    var parameters: [String: String] { get }
     
     /// The headers to be used in the request.
-    var headers: [String: String]? { get }
+    var headers: [String: String] { get }
     
     /// The http method used in the request.
-    var method: Method { get }
+    var method: SteeringRequestMethod { get }
     
     /// The body to be used in the request.
-    var body: Body { get }
+    var body: SteeringRequestBody { get }
     
     /// The validation to be applied to the status code.
-    var validation: Validation { get }
+    var validation: SteeringRequestValidation { get }
 }
 
-// MARK: - Constructor
+// MARK: - Internal Constructor
 extension SteeringRequest {
     
     /// URL request constructed from the object.
@@ -91,10 +96,10 @@ private extension SteeringRequest {
     /// Encodes and appends the given request parameters to the request url.
     /// - Parameter parameters: Parameters to be added to the url query.
     /// - Parameter request: Inout url request being constructed.
-    func add(parameters: [String: String]?,
+    func add(parameters: [String: String],
              to request: inout URLRequest) {
         
-        guard let parameters = parameters, let requestURL = request.url else {
+        guard !parameters.isEmpty, let requestURL = request.url else {
             return
         }
         
@@ -110,10 +115,10 @@ private extension SteeringRequest {
     /// Adds given headers to the request.
     /// - Parameter headers: Headers to be added to the http header field.
     /// - Parameter request: Inout url request being constructed.
-    func add(headers: [String: String]?,
+    func add(headers: [String: String],
              to request: inout URLRequest) {
         
-        guard let headers = headers else {
+        guard !headers.isEmpty else {
             return
         }
         
@@ -125,10 +130,10 @@ private extension SteeringRequest {
     /// Adds given body data to the request.
     /// - Parameter body: request body to be added.
     /// - Parameter request: Inout url request being constructed.
-    func add(body: SteeringRequestBody?,
+    func add(body: SteeringRequestBody,
              to request: inout URLRequest) {
         
-        guard let body = body, let data = body.data else {
+        guard let data = body.data else {
             return
         }
 

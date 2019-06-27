@@ -8,7 +8,7 @@ import Foundation
 private protocol SteeringInterface {
     
     /// The associated network request targets.
-    associatedtype Target: SteeringRequest
+    associatedtype Target: SteeringTarget
     
     /// The associated error passed back when performing a failed task.
     associatedtype Error: Swift.Error
@@ -18,20 +18,16 @@ private protocol SteeringInterface {
     
     /// A request method used for requesting any service supported network calls.
     ///
-    /// - Parameter type: The generic `Decodable` type to be parsed by the `jsonDecoder`.
-    /// - Parameter jsonDecoder: The `JSONDecoder` used to parse the generic `Decodable` type.
     /// - Parameter target: Enum holding possible network requests
     /// - Parameter completion: Result returning either a parsed model or an error.
     /// - Returns: A session data task if a new network call is made.
     @discardableResult
-    func request<T: Decodable>(_ type: T.Type,
-                               with jsonDecoder: JSONDecoder,
-                               from target: Target,
-                               completion: @escaping (Result<T, Error>) -> Void) -> URLSessionDataTask?
+    func request(_ target: Target,
+                 completion: @escaping (Result<Target.Request.Response, Error>) -> Void) -> URLSessionDataTask?
 }
 
 // MARK: - Class Declaration
-public class Steering<Target: SteeringRequest, Bolt: SteeringBolt> {
+public class Steering<Target: SteeringTarget, Bolt: SteeringBolt> {
     
     /// The service layer responsible for making network requests.
     private let service: Bolt
@@ -45,22 +41,12 @@ public class Steering<Target: SteeringRequest, Bolt: SteeringBolt> {
 
 // MARK: - SteeringInterface Conformation
 extension Steering: SteeringInterface {
-    
-    /// A request method used for requesting any service supported network calls.
-    ///
-    /// - Parameter type: The generic `Decodable` type to be parsed by the `jsonDecoder`.
-    /// - Parameter jsonDecoder: The `JSONDecoder` used to parse the generic `Decodable` type.
-    /// - Parameter target: Enum holding possible network requests
-    /// - Parameter completion: Result returning either a parsed model or an error.
-    /// - Returns: A session data task if a new network call is made.
     @discardableResult
-    public func request<T: Decodable>(_ type: T.Type,
-                                      with jsonDecoder: JSONDecoder,
-                                      from target: Target,
-                                      completion: @escaping (Result<T, SteeringError>) -> Void) -> URLSessionDataTask? {
+    func request(_ target: Target,
+                 completion: @escaping (Result<Target.Request.Response, SteeringError>) -> Void) -> URLSessionDataTask? {
         
         // Make a request to specified target.
-        return service.task(target.urlRequest) { result in
+        return service.task(target.request.urlRequest) { result in
             
             // Switch on the result of the network request.
             switch result {
@@ -70,7 +56,7 @@ extension Steering: SteeringInterface {
                 let statusCode = response.response.statusCode
                 
                 // Validate the response status code from specified target.
-                guard target.validation.statusCodes.contains(statusCode) else {
+                guard target.request.validation.statusCodes.contains(statusCode) else {
                     
                     // An invalid status code was found.
                     completion(.failure(.validation(statusCode)))
@@ -80,7 +66,7 @@ extension Steering: SteeringInterface {
                 do {
                     
                     // Attempt to parse the data returned from the network request.
-                    let item = try jsonDecoder.decode(T.self, from: response.data)
+                    let item = try target.request.jsonDecoder.decode(Target.Request.Response.self, from: response.data)
                     
                     // Successfully parsed the resulting data.
                     completion(.success(item))
