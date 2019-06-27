@@ -9,11 +9,13 @@ let package = Package(
             name: "Steering",
             targets: ["Steering"]),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/christianampe/tyre.git",
+                 .branch("master"))],
     targets: [
         .target(
             name: "Steering",
-            dependencies: []),
+            dependencies: ["Tyre"]),
         .testTarget(
             name: "SteeringTests",
             dependencies: ["Steering"]),

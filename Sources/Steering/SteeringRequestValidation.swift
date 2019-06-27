@@ -29,8 +29,6 @@ public enum SteeringRequestValidation {
 
 // MARK: - SteeringRequestValidation Conformance
 extension SteeringRequestValidation: SteeringRequestValidationInterface {
-    
-    /// The list of HTTP status codes to validate.
     var statusCodes: [Int] {
         switch self {
         case .successCodes:

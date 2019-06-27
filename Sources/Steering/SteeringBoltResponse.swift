@@ -4,7 +4,7 @@
 
 import Foundation
 
-public protocol SteeringBoltResponse {
+protocol SteeringBoltResponseInterface {
     
     /// The data returned from the network request.
     var data: Data { get }
@@ -14,4 +14,10 @@ public protocol SteeringBoltResponse {
     
     /// The http url response returned from server.
     var response: HTTPURLResponse { get }
+}
+
+public struct SteeringBoltResponse: SteeringBoltResponseInterface {
+    let data: Data
+    let request: URLRequest
+    let response: HTTPURLResponse
 }

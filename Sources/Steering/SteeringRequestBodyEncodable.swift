@@ -10,6 +10,7 @@ struct SteeringRequestBodyEncodable {
     private let encodable: Encodable
     
     /// An explicit initializer.
+    /// 
     /// - Parameter encodable: The object to be passed as data in the request body.
     init(_ encodable: Encodable) {
         self.encodable = encodable

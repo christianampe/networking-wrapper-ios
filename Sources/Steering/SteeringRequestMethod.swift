@@ -41,7 +41,5 @@ public enum SteeringRequestMethod: String {
 
 // MARK: - SteeringRequestMethodInterface Conformance
 extension SteeringRequestMethod: SteeringRequestMethodInterface {
-    
-    /// Uppercased representation of the method name.
     var name: String { rawValue.uppercased() }
 }

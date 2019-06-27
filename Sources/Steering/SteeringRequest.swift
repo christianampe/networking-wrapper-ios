@@ -76,6 +76,7 @@ extension SteeringRequest {
 private extension SteeringRequest {
     
     /// Appends the given path to the request url.
+    /// 
     /// - Parameter path: URL endpoint path to be added to the base url.
     /// - Parameter request: Inout url request being constructed.
     func add(path: String,
@@ -85,6 +86,7 @@ private extension SteeringRequest {
     }
     
     /// Adds the http method type to the request.
+    ///
     /// - Parameter method: HTTP method to be executed.
     /// - Parameter request: Inout url request being constructed.
     func add(method: SteeringRequestMethod,
@@ -94,6 +96,7 @@ private extension SteeringRequest {
     }
     
     /// Encodes and appends the given request parameters to the request url.
+    ///
     /// - Parameter parameters: Parameters to be added to the url query.
     /// - Parameter request: Inout url request being constructed.
     func add(parameters: [String: String],
@@ -113,6 +116,7 @@ private extension SteeringRequest {
     }
     
     /// Adds given headers to the request.
+    ///
     /// - Parameter headers: Headers to be added to the http header field.
     /// - Parameter request: Inout url request being constructed.
     func add(headers: [String: String],
@@ -128,6 +132,7 @@ private extension SteeringRequest {
     }
     
     /// Adds given body data to the request.
+    ///
     /// - Parameter body: request body to be added.
     /// - Parameter request: Inout url request being constructed.
     func add(body: SteeringRequestBody,

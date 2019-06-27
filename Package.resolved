@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Tyre",
+        "repositoryURL": "https://github.com/christianampe/tyre.git",
+        "state": {
+          "branch": "master",
+          "revision": "f5962fa0656e7a9caa1de3d256ddf63d18365f26",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
