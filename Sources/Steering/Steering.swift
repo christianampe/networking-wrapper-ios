@@ -3,18 +3,16 @@
 //
 
 import Foundation
+import Tyre
 
 // MARK: - Private Interface
 private protocol SteeringInterface {
     
     /// The associated network request targets.
-    associatedtype Target: SteeringTarget
+    associatedtype Target: SteeringRequest
     
     /// The associated error passed back when performing a failed task.
     associatedtype Error: Swift.Error
-    
-    /// The associated structure responsible for making network requests.
-    associatedtype Bolt: SteeringBolt
     
     /// A request method used for requesting any service supported network calls.
     ///
@@ -22,31 +20,29 @@ private protocol SteeringInterface {
     /// - Parameter completion: Result returning either a parsed model or an error.
     /// - Returns: A session data task if a new network call is made.
     @discardableResult
-    func request(_ target: Target,
-                 completion: @escaping (Result<Target.Request.Response, Error>) -> Void) -> URLSessionDataTask?
+    func request<Response: Decodable>(_ type: Response,
+                                      with jsonDecoder: JSONDecoder,
+                                      from target: Target,
+                                      completion: @escaping (Result<Response, Error>) -> Void) -> URLSessionDataTask
 }
 
 // MARK: - Class Declaration
-public class Steering<Target: SteeringTarget, Bolt: SteeringBolt> {
+public class Steering<Target: SteeringRequest> {
     
     /// The service layer responsible for making network requests.
-    private let service: Bolt
-    
-    /// The default initializer.
-    /// - Parameter service: The service wrapping up a network request method.
-    public init(_ service: Bolt) {
-        self.service = service
-    }
+    private let service = Tyre()
 }
 
 // MARK: - SteeringInterface Conformation
 extension Steering: SteeringInterface {
     @discardableResult
-    func request(_ target: Target,
-                 completion: @escaping (Result<Target.Request.Response, SteeringError>) -> Void) -> URLSessionDataTask? {
+    func request<Response: Decodable>(_ type: Response,
+                                      with jsonDecoder: JSONDecoder,
+                                      from request: Target,
+                                      completion: @escaping (Result<Response, SteeringError>) -> Void) -> URLSessionDataTask {
         
         // Make a request to specified target.
-        return service.task(target.request.urlRequest) { result in
+        return service.task(request.urlRequest) { result in
             
             // Switch on the result of the network request.
             switch result {
@@ -56,7 +52,7 @@ extension Steering: SteeringInterface {
                 let statusCode = response.response.statusCode
                 
                 // Validate the response status code from specified target.
-                guard target.request.validation.statusCodes.contains(statusCode) else {
+                guard request.validation.statusCodes.contains(statusCode) else {
                     
                     // An invalid status code was found.
                     completion(.failure(.validation(statusCode)))
@@ -66,7 +62,7 @@ extension Steering: SteeringInterface {
                 do {
                     
                     // Attempt to parse the data returned from the network request.
-                    let item = try target.request.jsonDecoder.decode(Target.Request.Response.self, from: response.data)
+                    let item = try jsonDecoder.decode(Response.self, from: response.data)
                     
                     // Successfully parsed the resulting data.
                     completion(.success(item))

@@ -7,20 +7,6 @@ import Foundation
 // MARK: - Interface
 public protocol SteeringRequest {
     
-    /// The explicit initializer.
-    ///
-    /// - Parameter input: The object containing required fields to complete the request.
-    init(_ input: Input)
-    
-    /// The input object to be used  to pass in values to the request
-    associatedtype Input
-    
-    /// The associated response object to be parsed from the response.
-    associatedtype Response: Decodable
-    
-    /// The decoder used to parse the network response.
-    var jsonDecoder: JSONDecoder { get }
-    
     /// The target's base url.
     var baseURL: URL { get }
     
