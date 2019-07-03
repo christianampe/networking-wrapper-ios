@@ -128,11 +128,7 @@ To begin utilizing this networking layer you need to construct an instance of th
 final class Networking {
 
     /// The service provider instance.
-    let provider: Steering<NetworkService>
-
-    init(_ provider: Steering<NetworkService> = .init()) {
-        self.provider = provider
-    }
+    let provider = Steering<NetworkService>()
 }
 ```
 
