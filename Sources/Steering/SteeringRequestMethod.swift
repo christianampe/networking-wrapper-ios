@@ -2,8 +2,6 @@
 //  Created by Christian Ampe on 5/28/19.
 //
 
-import Foundation
-
 // MARK: - Interface
 private protocol SteeringRequestMethodInterface {
     

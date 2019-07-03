@@ -2,7 +2,7 @@
 //  Created by Christian Ampe on 5/28/19.
 //
 
-import Foundation
+import Foundation.NSJSONSerialization
 import Tyre
 
 // MARK: - Private Interface

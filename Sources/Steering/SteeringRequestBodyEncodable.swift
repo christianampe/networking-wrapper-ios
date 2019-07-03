@@ -2,7 +2,7 @@
 //  Created by Christian Ampe on 6/26/19.
 //
 
-import Foundation
+import Foundation.NSJSONSerialization
 
 struct SteeringRequestBodyEncodable {
     

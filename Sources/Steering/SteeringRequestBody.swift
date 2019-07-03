@@ -2,7 +2,7 @@
 //  Created by Christian Ampe on 6/19/19.
 //
 
-import Foundation
+import Foundation.NSJSONSerialization
 
 // MARK: - Interface
 private protocol SteeringRequestBodyInterface {
