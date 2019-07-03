@@ -27,7 +27,7 @@ private protocol SteeringInterface {
 }
 
 // MARK: - Class Declaration
-public class Steering<Target: SteeringRequest> {
+public struct Steering<Target: SteeringRequest> {
     
     /// The service layer responsible for making network requests.
     private let service = Tyre()
