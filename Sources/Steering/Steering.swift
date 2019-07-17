@@ -20,10 +20,10 @@ private protocol SteeringInterface {
     /// - Parameter completion: Result returning either a parsed model or an error.
     /// - Returns: A session data task if a new network call is made.
     @discardableResult
-    func request<Response: Decodable>(_ type: Response,
-                                      with jsonDecoder: JSONDecoder,
-                                      from target: Target,
-                                      completion: @escaping (Result<Response, Error>) -> Void) -> URLSessionDataTask
+    public func request<Response: Decodable>(_ type: Response,
+                                             with jsonDecoder: JSONDecoder,
+                                             from target: Target,
+                                             completion: @escaping (Result<Response, Error>) -> Void) -> URLSessionDataTask
 }
 
 // MARK: - Class Declaration
