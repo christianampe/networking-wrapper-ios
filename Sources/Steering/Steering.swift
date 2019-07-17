@@ -31,6 +31,8 @@ public struct Steering<Target: SteeringRequest> {
     
     /// The service layer responsible for making network requests.
     private let service = Tyre()
+    
+    public init() {}
 }
 
 // MARK: - SteeringInterface Conformation
