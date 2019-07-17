@@ -20,7 +20,7 @@ private protocol SteeringInterface {
     /// - Parameter completion: Result returning either a parsed model or an error.
     /// - Returns: A session data task if a new network call is made.
     @discardableResult
-    func request<Response: Decodable>(_ type: Response,
+    func request<Response: Decodable>(_ type: Response.Type,
                                       with jsonDecoder: JSONDecoder,
                                       from target: Target,
                                       completion: @escaping (Result<Response, Error>) -> Void) -> URLSessionDataTask
@@ -38,7 +38,7 @@ public struct Steering<Target: SteeringRequest> {
 // MARK: - SteeringInterface Conformation
 extension Steering: SteeringInterface {
     @discardableResult
-    public func request<Response: Decodable>(_ type: Response,
+    public func request<Response: Decodable>(_ type: Response.Type,
                                              with jsonDecoder: JSONDecoder,
                                              from request: Target,
                                              completion: @escaping (Result<Response, SteeringError>) -> Void) -> URLSessionDataTask {
